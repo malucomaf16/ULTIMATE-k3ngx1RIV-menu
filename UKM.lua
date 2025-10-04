@@ -220,6 +220,28 @@ local function startFly()
 	hum:SetStateEnabled(Enum.HumanoidStateType.Ragdoll, false)
 	hum:ChangeState(Enum.HumanoidStateType.Freefall)
 
+	local alpha = 0.25 
+	flyConn = RunService.RenderStepped:Connect(function(dt)
+		if not flyOn then return end
+		local dir = Vector3.new()
+
+		if UIS:IsKeyDown(Enum.KeyCode.W) then dir += Vector3.new(Camera.CFrame.LookVector.X, 0, Camera.CFrame.LookVector.Z) end
+		if UIS:IsKeyDown(Enum.KeyCode.S) then dir -= Vector3.new(Camera.CFrame.LookVector.X, 0, Camera.CFrame.LookVector.Z) end
+		if UIS:IsKeyDown(Enum.KeyCode.A) then dir -= Vector3.new(Camera.CFrame.RightVector.X, 0, Camera.CFrame.RightVector.Z) end
+		if UIS:IsKeyDown(Enum.KeyCode.D) then dir += Vector3.new(Camera.CFrame.RightVector.X, 0, Camera.CFrame.RightVector.Z) end
+
+		if UIS:IsKeyDown(Enum.KeyCode.Space) then dir += Vector3.new(0,1,0) end
+		if UIS:IsKeyDown(Enum.KeyCode.LeftControl) then dir -= Vector3.new(0,1,0) end
+
+		local spd = tonumber(flySpeed) or 60
+		local targetVel = dir.Magnitude>0 and dir.Unit * spd or Vector3.new()
+		local current = root.AssemblyLinearVelocity
+		local newVel = current:Lerp(targetVel*3, alpha)
+		root.AssemblyLinearVelocity = newVel
+
+		-- mantém “flutuando” sem travar pose
+		hum:ChangeState(Enum.HumanoidStateType.Freefall)
+	end)
 end
 
 local function stopFly()
