@@ -239,7 +239,6 @@ local function startFly()
 		local newVel = current:Lerp(targetVel*3, alpha)
 		root.AssemblyLinearVelocity = newVel
 
-		-- mantém “flutuando” sem travar pose
 		hum:ChangeState(Enum.HumanoidStateType.Freefall)
 	end)
 end
@@ -277,6 +276,9 @@ end)
 tile("THE-RAKE", function()
 	runURL("https://rawscripts.net/raw/UPD-The-Rake-REMASTERED-the-rake-remastered-OP-keyless-41703", "THE-RAKE")
 end)
+tile("RC7-Cloud", function()
+    runURL("https://pastefy.app/QNFO1zLn/raw", "RC7-Cloud")
+	end)
 
 local gate=Instance.new("Frame", gui)
 gate.BackgroundColor3=Color3.fromRGB(18,18,26); gate.BorderSizePixel=0
